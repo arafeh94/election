@@ -14,6 +14,6 @@ class IndexController extends Controller
 {
     function actionIndex()
     {
-        return ['state' => 'sweb service is working'];
+        return ['state' => 'web service is working'];
     }
 }
