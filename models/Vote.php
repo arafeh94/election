@@ -27,9 +27,9 @@ class Vote extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['KalamNumber', 'ElectorNumber'], 'required'],
             [['KalamNumber', 'ElectorNumber'], 'integer', 'min' => 1, 'max' => 999],
-            [['KalamNumber'], 'unique', 'targetClass' => Vote::className(), 'targetAttribute' => 'KalamNumber'],
-            [['ElectorNumber'], 'unique', 'targetClass' => Vote::className(), 'targetAttribute' => 'ElectorNumber'],
+            [['ElectorNumber'], 'unique', 'targetClass' => Vote::className(), 'targetAttribute' => ['ElectorNumber', 'KalamNumber']],
         ];
     }
 
