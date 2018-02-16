@@ -1,0 +1,11 @@
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE area;
+DROP TABLE candidate;
+DROP TABLE candidateresult;
+DROP TABLE daaira;
+DROP TABLE electorlist;
+DROP TABLE electorlistresult;
+DROP TABLE kalam;
+DROP TABLE user;
+DROP TABLE vote;
+SET FOREIGN_KEY_CHECKS = 1;

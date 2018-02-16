@@ -8,6 +8,7 @@
 
 namespace app\modules\api\v1\controllers;
 
+use app\models\Vote;
 use yii\rest\Controller;
 
 class IndexController extends Controller
@@ -15,5 +16,10 @@ class IndexController extends Controller
     function actionIndex()
     {
         return ['state' => 'sweb service is working'];
+    }
+
+    function actionVotes()
+    {
+        return Vote::find()->all();
     }
 }

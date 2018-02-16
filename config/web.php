@@ -5,6 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
+    'name' => 'Lebanese Election',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -15,6 +16,9 @@ $config = [
         'api' => [
             'class' => 'app\modules\api\Module',
             'defaultRoute' => 'v1'
+        ],
+        'admin' => [
+            'class' => 'app\modules\admin\Module',
         ]
     ],
     'components' => [
@@ -51,7 +55,9 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [],
+            'rules' => [
+
+            ],
         ],
     ],
     'params' => $params,
