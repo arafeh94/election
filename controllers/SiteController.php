@@ -100,6 +100,7 @@ class SiteController extends Controller
         $vote = new Vote();
         if ($vote->load(Yii::$app->request->post()) && $vote->validate()) {
             $result = $vote->save();
+            $vote = new Vote();
         }
         return $this->render('add_vote', [
             'vote' => $vote,
