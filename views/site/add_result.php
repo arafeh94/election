@@ -63,8 +63,7 @@ ActiveForm::end();
 
     window.addEventListener('load', function (ev) {
         var form = $('#ElectoralListForm');
-        form.on('afterValidate', function (e) {
-            console.log(e);
+        form.on('beforeValidate', function (e) {
             var electorList = $('[id^=elector-list]');
             var hasError = false;
             electorList.each(function (index) {
