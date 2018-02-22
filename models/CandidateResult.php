@@ -45,10 +45,10 @@ class CandidateResult extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'CandidateResultId' => 'Candidate Result ID',
-            'ElectorListResultId' => 'Elector List Result ID',
-            'CandidateId' => 'Candidate ID',
-            'Votes' => 'Votes',
+            'CandidateResultId' => Yii::t('app','Candidate Result ID'),
+            'ElectorListResultId' => Yii::t('app','Elector List Result ID'),
+            'CandidateId' => Yii::t('app','Candidate ID'),
+            'Votes' => Yii::t('app','Votes'),
         ];
     }
 

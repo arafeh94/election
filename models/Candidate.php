@@ -37,8 +37,8 @@ class Candidate extends \yii\db\ActiveRecord
             [['CandidateId', 'ElectorListId', 'KalamId', 'Number'], 'integer'],
             [['Name'], 'string', 'max' => 255],
             [['CandidateId'], 'unique'],
-            [['KalamId'], 'exist', 'skipOnError' => true, 'targetClass' => Kalam::className(), 'targetAttribute' => ['KalamId' => 'KalamId']],
-            [['ElectorListId'], 'exist', 'skipOnError' => true, 'targetClass' => Electorlist::className(), 'targetAttribute' => ['ElectorListId' => 'ElectorListId']],
+            [['KalamId'], 'exist', 'targetClass' => Kalam::className(), 'targetAttribute' => ['KalamId' => 'KalamId']],
+            [['ElectorListId'], 'exist', 'targetClass' => Electorlist::className(), 'targetAttribute' => ['ElectorListId' => 'ElectorListId']],
         ];
     }
 
@@ -48,11 +48,11 @@ class Candidate extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'CandidateId' => 'Candidate ID',
-            'ElectorListId' => 'Elector List ID',
-            'KalamId' => 'Kalam ID',
-            'Number' => 'Number',
-            'Name' => 'Name',
+            'CandidateId' => Yii::t('app', 'Candidate ID'),
+            'ElectorListId' => Yii::t('app', 'Elector List ID'),
+            'KalamId' => Yii::t('app', 'Kalam ID'),
+            'Number' => Yii::t('app', 'Number'),
+            'Name' => Yii::t('app', 'Name'),
         ];
     }
 

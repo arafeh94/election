@@ -103,6 +103,14 @@ a.desc:after {
         width: 100%;
         padding: 10px 15px;
     }
+
+    .wrap > .container {
+        padding: 120px 15px 20px;
+    }
+
+    .navbar-inverse .navbar-nav > li > a {
+        font-size: 12px;
+    }
 }
 
 .nav > li > form > button.logout:focus,
@@ -135,3 +143,34 @@ a.desc:after {
 .navbar-inverse .btn-link {
     color: #ff8888;
 }
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.navbar-collapse.collapse {
+    display: block !important;
+}
+
+.navbar-nav > li, .navbar-nav {
+    float: right !important;
+}
+
+.navbar-nav.navbar-right:last-child {
+    margin-right: -15px !important;
+}
+
+.navbar-right {
+    float: right !important;
+}
+
+.navbar-toggle {
+    display: none;
+}
+

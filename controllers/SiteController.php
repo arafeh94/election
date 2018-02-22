@@ -20,6 +20,11 @@ use yii\web\Response;
 
 class SiteController extends Controller
 {
+    public function init()
+    {
+        parent::init();
+        Yii::$app->language = 'ar';
+    }
 
     public function behaviors()
     {
@@ -95,19 +100,19 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    public function actionAddVote($result = null)
+    public function actionAddVote()
     {
-        $vote = new Vote();
-        if ($vote->load(Yii::$app->request->post()) && $vote->validate()) {
-            $result = $vote->save();
-            $vote = new Vote();
+        if (Yii::$app->request->post()) {
+            $kalamId = Yii::$app->request->post('KalamId');
+            $votes = Yii::$app->request->post('votes');
+            foreach ($votes as $elector) {
+                $vote = new Vote();
+                $vote->KalamId = $kalamId;
+                $vote->ElectorNumber = $elector;
+                $vote->save();
+            }
         }
-        return $this->render('add_vote', [
-            'vote' => $vote,
-            'votes' => new ActiveDataProvider(['query' => Vote::find()]),
-            'result' => $result,
-            'kalam' => Yii::$app->user->identity->kalam,
-        ]);
+        return $this->render('add_vote');
     }
 
     public function actionDeleteVote($id)
@@ -131,18 +136,19 @@ class SiteController extends Controller
                 }
             }
             foreach ($eList as $i => $item) {
-                $listResult = new ElectorListResult();
+                $listResult = $item['ElectorListResultId'] ? ElectorListResult::findOne($item['ElectorListResultId']) : new ElectorListResult();
                 $listResult->load($item, '');
                 $listResult->validate();
                 $listResult->save();
                 foreach ($cLists[$i] as $cItem) {
-                    $candidateResult = new CandidateResult();
+                    $candidateResult = $cItem['CandidateResultId'] ? CandidateResult::findOne($cItem['CandidateResultId']) : new CandidateResult();
                     $candidateResult->load($cItem, '');
                     $candidateResult->ElectorListResultId = $listResult->ElectorListResultId;
                     $candidateResult->validate();
                     $candidateResult->save();
                 }
             }
+            return $this->renderPartial('result', ['errors' => $error, 'success' => true, 'message' => 'added successfully']);
         }
 
 
@@ -150,6 +156,45 @@ class SiteController extends Controller
             'electoralList' => ElectorList::find()->all(),
             'kalam' => Yii::$app->user->identity->kalam,
             'error' => $error,
+        ]);
+    }
+
+    public function actionAddResultForm($id)
+    {
+        $electoralListResults = ElectorListResult::findAll(['KalamId' => $id]);
+        $candidateResults = [];
+        $candidates = [];
+        $electoralLists = ElectorList::find()->all();
+        if (!$electoralListResults) {
+            foreach ($electoralLists as $i => $list) {
+                $electoralListResult = new ElectorListResult();
+                $electoralListResult->kalamId = $id;
+                $electoralListResult->ElectorListId = $list->ElectorListId;
+                $electoralListResults[] = $electoralListResult;
+                $candidatesResult = [];
+                $listCandidate = $list->getCandidates($id)->all();
+                foreach ($listCandidate as $candidate) {
+                    $candidateResult = new CandidateResult();
+                    $candidateResult->CandidateId = $candidate->CandidateId;
+                    $candidatesResult[] = $candidateResult;
+                }
+                $candidates[] = $listCandidate;
+                $candidateResults[] = $candidatesResult;
+            }
+        } else {
+            foreach ($electoralLists as $i => $list) {
+                $candidates[] = $list->getCandidates($id)->all();
+            }
+            foreach ($electoralListResults as $listResult) {
+                $candidateResults[] = $listResult->candidateResults;
+            }
+        }
+        return $this->renderPartial('form_add_results', [
+            'kalam' => Kalam::findOne($id),
+            'electoralListResults' => $electoralListResults,
+            'candidateResults' => $candidateResults,
+            'electoralLists' => $electoralLists,
+            'candidates' => $candidates,
         ]);
     }
 }

@@ -27,13 +27,15 @@ CREATE TABLE User (
   Username VARCHAR(255),
   Password TEXT,
   KalamId  INT,
+  Type     INT,
+  PlaceId  INT,
   CONSTRAINT FOREIGN KEY (KalamId) REFERENCES Kalam (KalamId)
 )
   ENGINE = INNODB;
 
 CREATE TABLE Vote (
   VoteId        INT PRIMARY KEY AUTO_INCREMENT,
-  KalamNumber   INT,
+  KalamId   INT,
   ElectorNumber INT
 )
   ENGINE = INNODB;
@@ -59,9 +61,9 @@ CREATE TABLE Candidate (
 
 CREATE TABLE ElectorListResult (
   ElectorListResultId INT PRIMARY KEY AUTO_INCREMENT,
-  ElectorListId    INT,
-  kalamId           INT,
-  Votes             INT,
+  ElectorListId       INT,
+  kalamId             INT,
+  Votes               INT,
   CONSTRAINT FOREIGN KEY (ElectorListId) REFERENCES ElectorList (ElectorListId),
   CONSTRAINT FOREIGN KEY (kalamId) REFERENCES Kalam (KalamId)
 )

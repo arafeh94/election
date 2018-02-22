@@ -41,8 +41,8 @@ class Daaira extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'DaairaId' => 'Daaira ID',
-            'Name' => 'Name',
+            'DaairaId' => Yii::t('app','Daaira ID'),
+            'Name' => Yii::t('app','Name'),
         ];
     }
 

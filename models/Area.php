@@ -44,9 +44,9 @@ class Area extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'AreaId' => 'Area ID',
-            'DaairaId' => 'Daaira ID',
-            'Name' => 'Name',
+            'AreaId' => Yii::t('app', 'Area ID'),
+            'DaairaId' => Yii::t('app', 'Daaira ID'),
+            'Name' => Yii::t('app', 'Name'),
         ];
     }
 

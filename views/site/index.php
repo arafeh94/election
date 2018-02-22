@@ -29,8 +29,8 @@ $this->title = 'Lebanese Election';
 <div class="site-index">
     <div class="action-container">
         <div class="center">
-            <?= Html::a(Html::button("Add Vote", ['class' => 'big-button btn btn-primary']), Url::to(['site/add-vote'])) ?>
-            <?= Html::a(Html::button("Add List Result", ['class' => 'big-button btn btn-primary']), Url::to(['site/add-result'])) ?>
+            <?= Html::a(Html::button(Yii::t('app', "Add Votes"), ['class' => 'big-button btn btn-primary']), Url::to(['site/add-vote'])) ?>
+            <?= Html::a(Html::button(Yii::t('app', "Add Results"), ['class' => 'big-button btn btn-primary']), Url::to(['site/add-result'])) ?>
         </div>
     </div>
 </div>

@@ -44,9 +44,9 @@ class ElectorList extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'ElectorListId' => 'Elector List ID',
-            'Name' => 'Name',
-            'Color' => 'Color',
+            'ElectorListId' => Yii::t('app','Elector List ID'),
+            'Name' => Yii::t('app','Name'),
+            'Color' => Yii::t('app','Color'),
         ];
     }
 

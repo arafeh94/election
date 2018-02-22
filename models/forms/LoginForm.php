@@ -22,6 +22,15 @@ class LoginForm extends Model
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'username' => \Yii::t('app', ''),
+            'password' => \Yii::t('app', '')
+        ];
+    }
+
+
     public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) {

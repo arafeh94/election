@@ -15,17 +15,15 @@ use yii\web\AssetBundle;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class AppAsset extends AssetBundle
+class SelectizeAssets extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/site.css',
-        'css/loader.css',
+        'libs/selectize/css/selectize.css',
     ];
     public $js = [
-        'js/bootstrap.js',
-        'js/main.js',
+        'libs/selectize/js/standalone/selectize.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

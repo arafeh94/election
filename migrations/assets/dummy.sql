@@ -33,9 +33,9 @@ TRUNCATE TABLE `area`;
 --
 
 INSERT INTO `area` (AreaId, DaairaId, `Name`) VALUES
-  (1, 1, 'tripoli'),
-  (2, 1, 'minye'),
-  (3, 1, 'denniye');
+  (1, 1, 'طرابلس'),
+  (2, 1, 'منية'),
+  (3, 1, 'دنية');
 
 --
 -- Truncate table before insert candidate
@@ -47,15 +47,15 @@ TRUNCATE TABLE candidate;
 --
 
 INSERT INTO candidate (CandidateId, ElectorListId, KalamId, `Number`, `Name`) VALUES
-  (1, 1, 1, 1231, 'candidate1'),
-  (2, 1, 1, 1232, 'candidate2'),
-  (3, 2, 2, 1233, 'candidate3'),
-  (4, 2, 3, 1234, 'candidate4'),
-  (5, 3, 2, 1235, 'candidate5'),
-  (6, 3, 2, 1236, 'candidate6'),
-  (7, 3, 3, 1237, 'candidate7'),
-  (8, 3, 1, 1238, 'candidate8'),
-  (9, 3, 3, 1239, 'candidate9');
+  (1, 1, 1, 1, 'مرشح 1'),
+  (2, 1, 1, 2, 'مرشح 2'),
+  (3, 2, 2, 3, 'مرشح 3'),
+  (4, 2, 3, 4, 'مرشح 4'),
+  (5, 3, 2, 5, 'مرشح 5'),
+  (6, 3, 2, 6, 'مرشح 6'),
+  (7, 3, 3, 7, 'مرشح 7'),
+  (8, 3, 1, 8, 'مرشح 8'),
+  (9, 3, 3, 9, 'مرشح 9');
 
 --
 -- Truncate table before insert daaira
@@ -67,7 +67,7 @@ TRUNCATE TABLE daaira;
 --
 
 INSERT INTO daaira (DaairaId, `Name`) VALUES
-  (1, 'alshamal');
+  (1, 'الشمال');
 
 --
 -- Truncate table before insert electorlist
@@ -79,9 +79,9 @@ TRUNCATE TABLE electorlist;
 --
 
 INSERT INTO electorlist (ElectorListId, `Name`, Color) VALUES
-  (1, 'rifi', '#fff'),
-  (2, 'hariri', '#bbb'),
-  (3, 'mikati', '#ccc');
+  (1, 'الأخضر', 'green'),
+  (2, 'الأزرق', 'blue'),
+  (3, 'الأحمر', 'red');
 
 --
 -- Truncate table before insert kalam
@@ -110,8 +110,9 @@ TRUNCATE TABLE `user`;
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (UserId, Username, `Password`, KalamId) VALUES
-  (0, 'admin', 'admin', 1);
+INSERT INTO `user` (UserId, Username, `Password`, KalamId, Type, PlaceId) VALUES
+  (1, 'admin', 'admin', 1, 1, 1),
+  (2, 'user', 'user', 1, 2, 2);
 
 --
 -- Truncate table before insert vote

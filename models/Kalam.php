@@ -46,9 +46,9 @@ class Kalam extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'KalamId' => 'Kalam ID',
-            'AreaId' => 'Area ID',
-            'Number' => 'Number',
+            'KalamId' => Yii::t('app','Kalam ID'),
+            'AreaId' => Yii::t('app','Area ID'),
+            'Number' => Yii::t('app','Number'),
         ];
     }
 

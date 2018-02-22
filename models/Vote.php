@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "vote".
  *
  * @property int $VoteId
- * @property int $KalamNumber
+ * @property int $KalamId
  * @property int $ElectorNumber
  */
 class Vote extends \yii\db\ActiveRecord
@@ -27,9 +27,10 @@ class Vote extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['KalamNumber', 'ElectorNumber'], 'required'],
-            [['KalamNumber', 'ElectorNumber'], 'integer', 'min' => 1, 'max' => 999],
-            [['ElectorNumber'], 'unique', 'targetClass' => Vote::className(), 'targetAttribute' => ['ElectorNumber', 'KalamNumber']],
+            [['KalamId', 'ElectorNumber'], 'required'],
+            [['ElectorNumber'], 'integer', 'min' => 1, 'max' => 999],
+            [['KalamId'], 'exist', 'targetClass' => Kalam::className(), 'targetAttribute' => ['KalamId' => 'KalamId']],
+            [['ElectorNumber'], 'unique', 'targetClass' => Vote::className(), 'targetAttribute' => ['ElectorNumber', 'KalamId']],
         ];
     }
 
@@ -39,9 +40,9 @@ class Vote extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'VoteId' => 'Vote ID',
-            'KalamNumber' => 'Kalam Number',
-            'ElectorNumber' => 'Elector Number',
+            'VoteId' => Yii::t('app', 'Vote ID'),
+            'KalamId' => Yii::t('app', 'Kalam Id'),
+            'ElectorNumber' => Yii::t('app', 'Elector Number'),
         ];
     }
 }

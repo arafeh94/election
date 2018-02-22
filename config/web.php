@@ -22,6 +22,17 @@ $config = [
         ]
     ],
     'components' => [
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' => 'error.php',
+                    ],
+                ],
+            ],
+        ],
         'request' => [
             'cookieValidationKey' => 'lFD4KQIfAuKi5bDQowx5167DpPQDh1M0',
         ],

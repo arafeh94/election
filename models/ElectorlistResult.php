@@ -47,10 +47,10 @@ class ElectorListResult extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'ElectorListResult' => 'Elector List Result',
-            'ElectorListId' => 'Elector List ID',
-            'kalamId' => 'Kalam ID',
-            'Votes' => 'Votes',
+            'ElectorListResult' => Yii::t('app','Elector List Result'),
+            'ElectorListId' => Yii::t('app','Elector List ID'),
+            'kalamId' => Yii::t('app','Kalam ID'),
+            'Votes' => Yii::t('app','Votes'),
         ];
     }
 

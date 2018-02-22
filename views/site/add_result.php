@@ -4,86 +4,108 @@
 /* @var \app\models\Kalam $kalam */
 
 
+use app\assets\SelectizeAssets;
 use app\models\CandidateResult;
 use app\models\ElectorListResult;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-echo "<h4><b>Adding results of kalam $kalam->Number</b></h4>";
+SelectizeAssets::register($this);
 
-$form = ActiveForm::begin([
-    'id' => 'ElectoralListForm',
-    'validateOnChange' => false,
-]);
-foreach ($electoralList as $i => $list) {
-    $electoralListResult = new ElectorListResult();
-    echo "<ul class='list-group' id='elector-list-$i'>";
-    echo $form->field($electoralListResult, "[$i]kalamId")->hiddenInput(['value' => $kalam->KalamId])->label(false);
-    echo $form->field($electoralListResult, "[$i]ElectorListId")->hiddenInput(['value' => $list->ElectorListId])->label(false);
-    echo $form->field($electoralListResult, "[$i]Votes")->textInput(['autocomplete' => 'off'])->label(ucfirst($list->Name) . ' Votes', ['onclick' => "toggle(this,$i)", 'class' => 'glyphicon-minus hover unselectable']);
-    foreach ($list->getCandidates($kalam->KalamId)->all() as $j => $candidate) {
-        $candidateResult = new CandidateResult();
-        echo $form->field($candidateResult, "[$i][$j]CandidateId")->hiddenInput(['value' => $candidate->CandidateId])->label(false);
-        echo "<li class='list-group-item child$i'>" . $form->field($candidateResult, "[$i][$j]Votes")->textInput(['autocomplete' => 'off'])->label(ucfirst($candidate->Name) . ' Votes') . '</li>';
-    }
-    echo '</ul>';
-}
-
-echo Html::submitButton('Add Result', ['class' => 'btn btn-primary']);
-ActiveForm::end();
+$areas = \app\models\Area::find()->asArray()->all();
+$kalams = \app\models\Kalam::find()->asArray()->all();
 
 ?>
-<style>
-    .hover {
-        cursor: pointer
-    }
 
-    .unselectable {
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
-</style>
 <script>
-    function toggle(span, pos) {
-        span = $(span);
-        var child = $('.child' + pos);
-        child.toggle(200);
-        if (span.hasClass('glyphicon-minus')) {
-            span.removeClass('glyphicon-minus');
-            span.addClass('glyphicon-plus');
-        } else {
-            span.removeClass('glyphicon-plus');
-            span.addClass('glyphicon-minus');
-        }
-    }
+    var areas = <?=json_encode($areas)?>;
+    var kalams = <?=json_encode($kalams)?>;
+</script>
 
-    window.addEventListener('load', function (ev) {
-        var form = $('#ElectoralListForm');
-        form.on('beforeValidate', function (e) {
-            var electorList = $('[id^=elector-list]');
-            var hasError = false;
-            electorList.each(function (index) {
-                var jquery = $(this);
-                var electorListResult = jquery.find('#electorlistresult-' + index + '-votes');
-                var candidateResults = jquery.find('[id^=candidateresult][id$=votes]');
-                var electorListResultVotes = parseInt(electorListResult.val(), 10);
-                var candidateResultsVotes = 0;
-                candidateResults.each(function () {
-                    candidateResultsVotes += parseInt(this.value, 10);
-                });
-                if (candidateResultsVotes > electorListResultVotes) {
-                    hasError = true;
-                    candidateResults.each(function () {
-                        form.yiiActiveForm('updateAttribute', this.id, ["candidates total votes must be equal or less than the list votes"]);
+<div id="sections" class="hidden">
+    <div id="section1">
+        <select id="area" name="area">
+            <option value="" title="Tooltip"><?= Yii::t('app', 'Select Area') ?></option>
+        </select>
+        <select id="kalam" name="kalam">
+            <option value="" title="Tooltip"><?= Yii::t('app', 'Select Kalam') ?></option>
+        </select>
+    </div>
+    <div id="section2">
+    </div>
+</div>
+
+
+<script>
+    var page = {
+        user: <?=json_encode(['Type' => Yii::$app->user->identity->Type, 'PlaceId' => Yii::$app->user->identity->PlaceId])?>,
+        sections: function () {
+            return $('#sections');
+        },
+        section1: function () {
+            return $('#section1');
+        },
+        section2: function () {
+            return $('#section2');
+        },
+        selectizeArea: function () {
+            if (this._selectizeArea) return this._selectizeArea;
+            this._selectizeArea = $('#area').selectize({
+                valueField: 'AreaId',
+                labelField: 'Name',
+                searchField: ['name'],
+                options: areas,
+                onChange: function (value) {
+                    if (!value.length) return;
+                    page.selectKalam().disable();
+                    page.selectKalam().clearOptions();
+                    page.selectKalam().load(function (callback) {
+                        page.selectKalam().enable();
+                        var filtered = kalams.filter(function (kalam) {
+                            return kalam.AreaId == value;
+                        });
+                        callback(filtered);
                     });
                 }
             });
-            return !hasError;
-        });
+            return this._selectizeArea;
+        },
+        selectizeKalam: function () {
+            if (this._selectizeKalam) return this._selectizeKalam;
+            this._selectizeKalam = $('#kalam').selectize({
+                valueField: 'KalamId',
+                labelField: 'Number',
+                onChange: function (value) {
+                    page.section2().empty();
+                    if (!value.length) return;
+                    page.section2().append('<div class=loader style="margin:auto;margin-top: 16px"></div>');
+                    $.get('http://localhost/election/web/site/add-result-form?id=' + value, function (data) {
+                        page.section2().empty();
+                        page.section2().append(data);
+                    })
+                }
+            });
+            return this._selectizeKalam;
+        },
+        selectArea: function () {
+            return this.selectizeArea()[0].selectize;
+        },
+        selectKalam: function () {
+            return this.selectizeKalam()[0].selectize;
+        }
+    };
 
+
+    window.addEventListener('load', function (ev) {
+        page.selectKalam();
+        page.selectArea();
+        page.sections().removeClass('hidden');
+        if (page.user.Type == 2) {
+            page.selectArea().setValue(page.user.PlaceId);
+            page.selectArea().disable();
+        } else {
+            page.selectKalam().disable();
+        }
     });
+
 </script>
