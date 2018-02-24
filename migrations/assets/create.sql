@@ -13,11 +13,28 @@ CREATE TABLE Area (
 )
   ENGINE = INNODB;
 
+CREATE TABLE AdministrativeArea (
+  AdministrativeAreaId INT PRIMARY KEY,
+  DaairaId             INT,
+  Name                 VARCHAR(255),
+  CONSTRAINT FOREIGN KEY (DaairaId) REFERENCES Daaira (DaairaId)
+)
+  ENGINE = INNODB;
+
+CREATE TABLE Location
+(
+  LocationId           INT PRIMARY KEY,
+  AdministrativeAreaId INT,
+  Name                 VARCHAR(255),
+  CONSTRAINT FOREIGN KEY (AdministrativeAreaId) REFERENCES AdministrativeArea (AdministrativeAreaId)
+)
+  ENGINE = INNODB;
+
 CREATE TABLE Kalam (
-  KalamId INT PRIMARY KEY,
-  AreaId  INT,
-  Number  INT,
-  CONSTRAINT FOREIGN KEY (AreaId) REFERENCES Area (AreaId),
+  KalamId    INT PRIMARY KEY,
+  LocationId INT,
+  Number     INT,
+  CONSTRAINT FOREIGN KEY (LocationId) REFERENCES Location (LocationId),
   INDEX (Number)
 )
   ENGINE = INNODB;
@@ -35,7 +52,7 @@ CREATE TABLE User (
 
 CREATE TABLE Vote (
   VoteId        INT PRIMARY KEY AUTO_INCREMENT,
-  KalamId   INT,
+  KalamId       INT,
   ElectorNumber INT
 )
   ENGINE = INNODB;
@@ -52,6 +69,7 @@ CREATE TABLE Candidate (
   ElectorListId INT,
   KalamId       INT,
   Number        INT,
+  DaairaId      INT,
   Name          VARCHAR(255),
   CONSTRAINT FOREIGN KEY (KalamId) REFERENCES Kalam (KalamId),
   CONSTRAINT FOREIGN KEY (ElectorListId) REFERENCES ElectorList (ElectorListId),

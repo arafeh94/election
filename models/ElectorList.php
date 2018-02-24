@@ -58,10 +58,11 @@ class ElectorList extends \yii\db\ActiveRecord
     {
         $query = $this->hasMany(Candidate::className(), ['ElectorListId' => 'ElectorListId']);
         if ($kalamId != null) {
-            $query->innerJoin(Kalam::tableName(), Kalam::tableName() . '.KalamId' . '=' . Candidate::tableName() . '.KalamId');
-            $query->innerJoin(Area::tableName(), Area::tableName() . '.AreaId' . '=' . Kalam::tableName() . '.AreaId');
-            $query->innerJoin(Daaira::tableName(), Daaira::tableName() . '.DaairaId' . '=' . Area::tableName() . '.DaairaId');
-            $query->where([Daaira::tableName() . '.DaairaId' => Kalam::findOne($kalamId)->area->DaairaId]);
+//            $query->innerJoin(Kalam::tableName(), Kalam::tableName() . '.KalamId' . '=' . Candidate::tableName() . '.KalamId');
+//            $query->innerJoin(Location::tableName(), Location::tableName() . '.LocationId' . '=' . Kalam::tableName() . '.LocationId');
+//            $query->innerJoin(AdministrativeArea::tableName(), AdministrativeArea::tableName() . '.AdministrativeAreaId' . '=' . Location::tableName() . '.AdministrativeAreaId');
+//            $query->innerJoin(Daaira::tableName(), Daaira::tableName() . '.DaairaId' . '=' . AdministrativeArea::tableName() . '.DaairaId');
+            $query->where(['DaairaId' => Kalam::findOne($kalamId)->location->administrativeArea->DaairaId]);
             return $query;
         }
         return $query;

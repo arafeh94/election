@@ -37,7 +37,7 @@ use yii\bootstrap\ActiveForm;
                 <?= $form->field($listResult, "[$i]ElectorListId")->hiddenInput(['value' => $listResult->ElectorListId])->label(false); ?>
                 <?= $form->field($listResult, "[$i]Votes")
                     ->textInput(['autocomplete' => 'off', 'class' => 'form-control vote-input', 'type' => 'number'])
-                    ->label(Yii::t('app','List Votes'), ['onclick' => "toggle(this,$i)", 'class' => 'hover unselectable']); ?>
+                    ->label(Yii::t('app', 'List Votes'), ['onclick' => "toggle(this,$i)", 'class' => 'hover unselectable']); ?>
                 <?php foreach ($candidateResults[$i] as $j => $candidateResult) : ?>
                     <?= $form->field($candidateResult, "[$i][$j]CandidateId")->hiddenInput(['value' => $candidateResult->CandidateId])->label(false); ?>
                     <?= $form->field($candidateResult, "[$i][$j]CandidateResultId")->hiddenInput(['value' => $candidateResult->CandidateResultId])->label(false); ?>
@@ -75,7 +75,9 @@ use yii\bootstrap\ActiveForm;
             var candidateResults = jquery.find('[id^=candidateresult][id$=votes]');
             var electorListResultVotes = parseInt(electorListResult.val(), 10);
             var candidateResultsVotes = 0;
+            debugger;
             candidateResults.each(function () {
+                this.value = this.value || 0;
                 candidateResultsVotes += parseInt(this.value, 10);
             });
             if (candidateResultsVotes > electorListResultVotes) {

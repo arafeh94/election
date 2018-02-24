@@ -21,7 +21,7 @@ class ServiceController extends Controller
 
     function actionVotes()
     {
-        return Vote::find()->select(['KalamNumber', 'ElectorNumber'])->all();
+        return Vote::find()->select(['KalamId', 'ElectorNumber'])->all();
     }
 
 

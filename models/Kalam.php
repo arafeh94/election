@@ -9,12 +9,12 @@ use yii\db\ActiveRecord;
  * This is the model class for table "kalam".
  *
  * @property int $KalamId
- * @property int $AreaId
+ * @property int $LocationId
  * @property int $Number
  *
  * @property Candidate[] $candidates
- * @property Electorlistresult[] $electorlistresults
- * @property Area $area
+ * @property ElectorListResult[] $electorlistresults
+ * @property LocationId $location
  * @property User[] $users
  */
 class Kalam extends ActiveRecord
@@ -34,9 +34,9 @@ class Kalam extends ActiveRecord
     {
         return [
             [['KalamId'], 'required'],
-            [['KalamId', 'AreaId', 'Number'], 'integer'],
+            [['KalamId', 'LocationId', 'Number'], 'integer'],
             [['KalamId'], 'unique'],
-            [['AreaId'], 'exist', 'skipOnError' => true, 'targetClass' => Area::className(), 'targetAttribute' => ['AreaId' => 'AreaId']],
+            [['LocationId'], 'exist', 'skipOnError' => true, 'targetClass' => Location::className(), 'targetAttribute' => ['LocationId' => 'LocationId']],
         ];
     }
 
@@ -47,7 +47,7 @@ class Kalam extends ActiveRecord
     {
         return [
             'KalamId' => Yii::t('app','Kalam ID'),
-            'AreaId' => Yii::t('app','Area ID'),
+            'LocationId' => Yii::t('app','Location ID'),
             'Number' => Yii::t('app','Number'),
         ];
     }
@@ -71,9 +71,9 @@ class Kalam extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getArea()
+    public function getLocation()
     {
-        return $this->hasOne(Area::className(), ['AreaId' => 'AreaId']);
+        return $this->hasOne(Location::className(), ['LocationId' => 'LocationId']);
     }
 
     /**

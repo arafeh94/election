@@ -12,6 +12,7 @@ use Yii;
  * @property int $KalamId
  * @property int $Number
  * @property string $Name
+ * @property int $DaairaId
  *
  * @property Kalam $kalam
  * @property Electorlist $electorList
@@ -34,7 +35,7 @@ class Candidate extends \yii\db\ActiveRecord
     {
         return [
             [['CandidateId'], 'required'],
-            [['CandidateId', 'ElectorListId', 'KalamId', 'Number'], 'integer'],
+            [['CandidateId', 'ElectorListId', 'KalamId', 'Number', 'DaairaId'], 'integer'],
             [['Name'], 'string', 'max' => 255],
             [['CandidateId'], 'unique'],
             [['KalamId'], 'exist', 'targetClass' => Kalam::className(), 'targetAttribute' => ['KalamId' => 'KalamId']],
@@ -53,6 +54,7 @@ class Candidate extends \yii\db\ActiveRecord
             'KalamId' => Yii::t('app', 'Kalam ID'),
             'Number' => Yii::t('app', 'Number'),
             'Name' => Yii::t('app', 'Name'),
+            'DaairaId' => Yii::t('app', 'DaairaId'),
         ];
     }
 
@@ -75,7 +77,7 @@ class Candidate extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCandidateresults()
+    public function getCandidateResults()
     {
         return $this->hasMany(Candidateresult::className(), ['CandidateId' => 'CandidateId']);
     }
